@@ -50,7 +50,7 @@ All donations will be used for continued development and to further the scope an
 
 <b>DERO Address</b>
 
-dERoX7DwLuoHd47LC9Lc1CBvyhm2ArhkvVwjGtVu3yiX7gi4tZW8SpUCNe8uCmjhaefmWpFtc3LPq2aKR9DYzSsW8B149ggMmX
+A DERO address for donations will be set up soon.
 
 
   
