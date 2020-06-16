@@ -10,10 +10,7 @@ Secure access to the [DERO](https://dero.io) network using a lightweight and por
 * Fully-functional wallet
 * Easy to use UI/UX
 
-## Private Smart Contract Integration (Post Stargate)
-* dApps Manager
-* Human-readable addresses
-* Integrated token account
+## Future Development
 * Integrated daemon
 * Integrated miner (solo mining)
 
