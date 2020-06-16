@@ -1,8 +1,8 @@
 # Command (CMD)
 
-![Powered by DERO](https://git.dero.io/DERO_Foundation/CMD/src/branch/master/assets/images/load.png)
+![Powered by DERO](https://git.dero.io/DERO_Foundation/CMD/raw/branch/master/assets/images/load.png)
 
-![Account Overview](https://git.dero.io/DERO_Foundation/CMD/src/branch/master/screenshot_1.JPG)
+![Account Overview](https://git.dero.io/DERO_Foundation/CMD/raw/branch/master/screenshot_1.JPG)
 
 Secure access to the [DERO](https://dero.io) network using a lightweight and portable library. CMD is an open source graphically-rendered GUI with native support for Golang. The goals were to provide a user-friendly interface with access to all DERO features and services, and to showcase creative ways to deploy modern UIs on Golang. With CMD, you are in total control of your digital presence with state-of-the-art privacy technology, only available within the DERO network. Join the movement to advance our <b>#PrivacyTogether</b> initiative.
 
