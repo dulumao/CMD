@@ -33,7 +33,6 @@ See [releases](https://git.dero.io/DERO_Foundation/CMD/releases) for the latest 
 * go get github.com/deroproject/derosuite
 * go get github.com/blang/semver
 
-You will need to build Raylib as well. Please see: https://github.com/raysan5/raylib#build-and-installation
 
 You are required to have all the dependencies for Raylib too. Specifically (if you are on windows), <b>TDM-GCC-64</b>.
 
