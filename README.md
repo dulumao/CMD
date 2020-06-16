@@ -26,7 +26,7 @@ CMD is portable. We plan to deploy releases on the following platforms:
 * Android
 * iOS
 
-See [releases](https://github.com/DEROFDN/CMD/releases) for the latest builds.
+See [releases](https://git.dero.io/DERO_Foundation/CMD/releases) for the latest builds.
 
 ## Build
 
