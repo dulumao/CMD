@@ -32,6 +32,7 @@ See [releases](https://git.dero.io/DERO_Foundation/CMD/releases) for the latest 
 * go get github.com/DankFC/raylib-goplus
 * go get github.com/deroproject/derosuite
 * go get github.com/blang/semver
+* go get github.com/sirupsen/logrus
 
 
 You are required to have all the dependencies for Raylib too. Specifically (if you are on windows), <b>TDM-GCC-64</b>.
