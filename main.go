@@ -101,7 +101,7 @@ const DEFAULT_RPC_ADDRESS_TESTNET = "127.0.0.1:30309"
 const MAX_PW_LENGTH = 30
 
 // Globals
-var Version = semver.MustParse("0.3.0-1.Alpha")
+var Version = semver.MustParse("0.3.0-2.Alpha")
 var config Config
 var wallet *walletapi.Wallet
 var account = &walletapi.Account{} // all account  data is available here
