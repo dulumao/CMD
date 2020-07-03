@@ -1577,7 +1577,7 @@ func main() {
 				rl.DrawTextEx(fontMenu, "Account Options", rl.Vector2{offsetX, 30}, 40, spacing, rl.Gray)
 				rl.DrawTextEx(font, "View and update your account information.", rl.Vector2{offsetX, 80}, 20, spacing, rl.Gray)
 				rl.DrawTextEx(fontSubHeader, "My Password", rl.Vector2{offsetX, 150}, 25, spacing, rl.White)
-				_, loginPassword = rl.GuiTextBox(rl.NewRectangle(offsetX, 220, 200, 50), loginPassword, 160, true)
+				_, loginPassword = rl.GuiTextBox(rl.NewRectangle(offsetX, 220, 400, 50), loginPassword, 160, true)
 				rl.DrawRectangleRec(rl.NewRectangle(offsetX, 215, 500, 60), cmdGray)
 				rl.DrawLineEx(rl.Vector2{offsetX, 275}, rl.Vector2{offsetX + 500, 275}, 2.0, session.Color)
 				
