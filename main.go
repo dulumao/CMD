@@ -1,6 +1,6 @@
 // Copyright 2020 DERO Foundation. All rights reserved.
 // build win: -ldflags -H=windowsgui
-// TODO: Code cleanup, seed languages, multi-language support, daemon/miner integration, logging.
+// TODO: Code cleanup, seed languages, multi-language support, daemon/miner integration.
 
 package main
 
@@ -15,6 +15,7 @@ import (
 	rl "github.com/DankFC/raylib-goplus/raylib"
 	"github.com/blang/semver"
 	"io/ioutil"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -44,7 +45,6 @@ type Config struct {
 
 type Session struct {
 	Path		string
-	Password	string
 	Mode		string // network mode (remote, local, offline)
 	Syncing		bool
 	Network		string
@@ -107,6 +107,7 @@ var wallet *walletapi.Wallet
 var account = &walletapi.Account{} // all account  data is available here
 var session Session
 var transfer Transfer
+
 var daemonOnline bool 
 var start int = 0
 var wHeight uint64
@@ -183,6 +184,20 @@ var transparent rl.Color
 
 // Main program loop
 func main() {
+	// Set up logger
+	log_file, err := os.OpenFile(APP_PATH + "logs.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    defer log_file.Close()
+	
+	log.SetOutput(log_file)
+	log.SetFormatter(&log.TextFormatter{})
+    log.SetLevel(log.WarnLevel)
+	
+	// Map arguments
 	globals.Arguments = make(map[string]interface{})
 	globals.Arguments["--debug"] = false
 	
@@ -259,6 +274,7 @@ func main() {
 		config.RPCAddress = "127.0.0.1:20209"
 		
 		globals.Arguments["--testnet"] = false
+		log.Warnf("File not found, config.json created.")
 	} else {
 		file, err := os.Open(APP_PATH + "config.json")
 		
@@ -319,6 +335,8 @@ func main() {
 			session.RPCServer = false
 			session.RPCAddress = "127.0.0.1:20209"
 			globals.Arguments["--testnet"] = false
+			
+			log.Warnf("Error loading config.json, loading default settings.")
 		}
 	}
 	
@@ -635,7 +653,6 @@ func main() {
 			case 1.1:
 				if passwordError == true {
 					rl.DrawTextEx(font, "The provided passwords do not match.", rl.Vector2{offsetX, 285}, 20, spacing, rl.Gray)
-					// TODO: Clear passwords.
 				}
 				createAccountPasswordEditable = true
 				rl.DrawTextEx(fontMenu, "Create an Account", rl.Vector2{offsetX, 30}, 40, spacing, rl.Gray)
@@ -693,11 +710,12 @@ func main() {
 					if err != nil {
 						wallet = nil
 						windowIndex = 1.0
+						log.Warnf("Error creating wallet: %s", err)
 						// TODO: Add error-feedback for the user.
 					} else {
 						err = wallet.Set_Encrypted_Wallet_Password(createAccountPassword)
 						if err != nil {
-							//globals.Logger.Warnf("Error changing password")
+							log.Warnf("Error changing password: %s", err)
 						}
 						// TODO wallet.Set_Seed_Language(language)
 						session.Path = createAccountFilename + ".db"
@@ -840,56 +858,16 @@ func main() {
 							loginPassword = ""
 							passwordError = true
 							windowIndex = 2.1
+							log.Warnf("Error opening wallet: %s", err)
 							break
 						}
 					}
 					
-					session.Password = loginPassword
 					loginPassword = ""
 					passwordError = false
 					resetTransfer()
 					
-					if session.Network == "Testnet" {
-						globals.Arguments["--testnet"] = true
-						session.Network = "Testnet"
-						session.Color = cmdBlue
-						
-						if session.Mode == "remote" {
-							session.Daemon = config.RemoteDaemonTestnet
-							globals.Arguments["--remote"] = true
-							globals.Arguments["--daemon-address"] = session.Daemon
-						} else if session.Mode == "local" {
-							session.Daemon = config.LocalDaemonTestnet
-							globals.Arguments["--remote"] = false
-							globals.Arguments["--daemon-address"] = session.Daemon
-						} else {
-							globals.Arguments["--remote"] = false
-							globals.Arguments["--daemon-address"] = ""
-						}
-					} else {
-						globals.Arguments["--testnet"] = false
-						session.Network = "Mainnet"
-						session.Color = cmdGreen
-						
-						if session.Mode == "remote" {
-							globals.Arguments["--remote"] = true
-							globals.Arguments["--daemon-address"] = session.Daemon
-						} else if session.Mode == "local" {
-							globals.Arguments["--remote"] = false
-							globals.Arguments["--daemon-address"] = session.Daemon
-						} else {
-							globals.Arguments["--remote"] = false
-							globals.Arguments["--daemon-address"] = ""
-						}
-					}
-					
-					globals.Arguments["--debug"] = false
-					
-					// Args for miner
-					globals.Arguments["--wallet-address"] = wallet.GetAddress().String()
-					globals.Arguments["--daemon-rpc-address"] = session.Daemon
-						
-					globals.Initialize()
+					wallet.SetDaemonAddress(session.Daemon)
 						
 					if session.Mode != "offline" {
 						if (session.Rescan && session.Path == rescanPath) {
@@ -990,6 +968,8 @@ func main() {
 								
 								if err == nil {
 									session.RPCServer = true
+								} else {
+									log.Warnf("Error starting RPC server: %s", err)
 								}
 							}
 						} else {
@@ -1230,22 +1210,31 @@ func main() {
 					masked, mask = textMask(pidString)
 				}
 				
-				if pidString != "" {
+				err = nil
+				
+				//if pidString != "" {
 					if rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Clear") {
 						pidString = ""
 						transfer.PaymentID = nil
 						break
 					}
 					
-					transfer.PaymentID, err = hex.DecodeString(pidString)
-				
-					if err != nil {
+					//transfer.PaymentID, err = hex.DecodeString(pidString)
+					
+					if (len(pidString) == 8 || len(pidString) == 64) {
+						transfer.PaymentID, err = hex.DecodeString(pidString)
+
+						if err != nil {
+							rl.DrawTextEx(font, "Invalid payment ID format.", rl.Vector2{offsetX, 285}, 20, spacing, rl.Gray)
+							break
+						}
+					} else {
 						rl.DrawTextEx(font, "Invalid payment ID format.", rl.Vector2{offsetX, 285}, 20, spacing, rl.Gray)
 						break
 					}
-				}
+				//}
 
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX + 230, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
 					windowIndex = 2.52
 				}
 		
@@ -1313,6 +1302,7 @@ func main() {
 						
 						if err != nil {
 							// TODO: Error feedback
+							log.Warnf("Error building the transaction: %s", err)
 							break
 						} else {
 							amountString = globals.FormatMoney12(input_sum)
@@ -1330,7 +1320,7 @@ func main() {
 						_ = inputs
 						
 						if err != nil {
-							//globals.Logger.Warnf("Error while building Transaction err %s\n", err)
+							log.Warnf("Error while building transaction: %s", err)
 							break
 						}
 						
@@ -1369,7 +1359,7 @@ func main() {
 				rl.DrawTextEx(fontSubHeader, "My Password:", rl.Vector2{offsetX, 150}, 25, spacing, rl.White)
 				strAmount := globals.FormatMoney12(transfer.Amount)
 				strFees := globals.FormatMoney12(transfer.Fees)
-				rl.DrawTextEx(font, "TRANSACTION DETAILS\n\nDestination Address:  " + transfer.rAddress.String() + "\nPayment ID:  " + string(transfer.PaymentID) + "\nAmount:  " + strAmount + "\nFees:  " + strFees, rl.Vector2{offsetX, 350}, 20, spacing, rl.White)
+				rl.DrawTextEx(font, "TRANSACTION DETAILS\n\nDestination Address:  " + transfer.rAddress.String() + "\nPayment ID:  " + hex.EncodeToString(transfer.PaymentID) + "\nAmount:  " + strAmount + "\nFees:  " + strFees, rl.Vector2{offsetX, 350}, 20, spacing, rl.White)
 				_, loginPassword = rl.GuiTextBox(rl.NewRectangle(offsetX, 220, 200, 50), loginPassword, 160, true)
 				rl.DrawRectangleRec(rl.NewRectangle(offsetX, 215, 500, 60), cmdGray)
 				rl.DrawLineEx(rl.Vector2{offsetX, 275}, rl.Vector2{offsetX + 500, 275}, 2.0, session.Color)
@@ -1403,6 +1393,7 @@ func main() {
 								transfer.Status = "Success"
 							} else {
 								transfer.Status = "Failed"
+								log.Warnf("Error building offline transaction: %s", err)
 							}
 						} else {
 
@@ -1416,6 +1407,7 @@ func main() {
 							} else {
 								transfer.Status = "Failed"
 								transfer.TXID = transfer.TX.GetHash()
+								log.Warnf("Error relaying transaction: %s", err)
 							}
 						}
 						
@@ -1685,6 +1677,7 @@ func main() {
 						
 						if err != nil {
 							// TODO: Error feedback
+							log.Warnf("Error changing password: %s", err)
 							break
 						} else {
 							passwordError = false
@@ -1844,11 +1837,11 @@ func main() {
 					wallet, err = walletapi.Create_Encrypted_Wallet_ViewOnly(restoreFilename + ".db", restorePassword, restoreHex)
 
 					if err != nil {
-						//globals.Logger.Warnf("Error while reconstructing view-only wallet using view key err %s\n", err)
+						log.Warnf("Error while reconstructing view-only wallet using view key: %s", err)
 					} else {
 						err = wallet.Set_Encrypted_Wallet_Password(restorePassword)
 						if err != nil {
-							//globals.Logger.Warnf("Error changing password")
+							log.Warnf("Error changing password: %s", err)
 						} else {
 							closeWallet()
 							windowIndex = 2.1
@@ -1980,11 +1973,11 @@ func main() {
 					wallet, err = walletapi.Create_Encrypted_Wallet_From_Recovery_Words(restoreFilename + ".db", restorePassword, restoreHex)
 
 					if err != nil {
-						//globals.Logger.Warnf("Error while reconstructing view-only wallet using view key err %s\n", err)
+						log.Warnf("Error while reconstructing view-only wallet using view key: %s", err)
 					} else {
 						err = wallet.Set_Encrypted_Wallet_Password(restorePassword)
 						if err != nil {
-							//globals.Logger.Warnf("Error changing password")
+							log.Warnf("Error changing password: %s", err)
 						} else {
 							closeWallet()
 							session.Path = restoreFilename + ".db"
@@ -2109,11 +2102,11 @@ func main() {
 					wallet, err = walletapi.Create_Encrypted_Wallet_From_Recovery_Words(restoreFilename + ".db", restorePassword, restoreHex)
 
 					if err != nil {
-						//globals.Logger.Warnf("Error while reconstructing view-only wallet using view key err %s\n", err)
+						log.Warnf("Error while reconstructing view-only wallet using view key: %s", err)
 					} else {
 						err = wallet.Set_Encrypted_Wallet_Password(restorePassword)
 						if err != nil {
-							//globals.Logger.Warnf("Error changing password")
+							log.Warnf("Error changing password: %s", err)
 						} else {
 							closeWallet()
 							session.Path = restoreFilename + ".db"
@@ -2532,7 +2525,7 @@ func openURL(url string) {
 		err = exec.Command("open", url).Start()
 	}
 	if err != nil {
-		//globals.Logger.Warnf("URL failed to open.")
+		log.Warnf("Error opening URL: %s", err)
 	}
 
 }
@@ -2541,6 +2534,7 @@ func openURL(url string) {
 func build_relay_transaction(tx *transaction.Transaction, inputs []uint64, input_sum uint64, change uint64, err error, offline_tx bool, amount_list []uint64) bool {
 
 	if err != nil {
+		log.Warnf("Error building transaction: %s", err)
 		return false
 	}
 	
