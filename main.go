@@ -1211,6 +1211,10 @@ func main() {
 				}
 				
 				err = nil
+
+				if (rl.GuiButton(rl.NewRectangle(offsetX + 230, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+					windowIndex = 2.52
+				}
 				
 				//if pidString != "" {
 					if rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Clear") {
@@ -1233,10 +1237,6 @@ func main() {
 						break
 					}
 				//}
-
-				if (rl.GuiButton(rl.NewRectangle(offsetX + 230, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
-					windowIndex = 2.52
-				}
 		
 				break
 			
