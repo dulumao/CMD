@@ -635,7 +635,7 @@ func main() {
 					rl.DrawTextEx(fontHeader, mask, rl.Vector2{offsetX, 231}, 30, spacing, session.Color)
 				}
 				
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if createAccountFilename == "" {
 						break
 					}
@@ -667,7 +667,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if createAccountPassword != "" {
 						windowIndex = 1.12
 					}
@@ -688,7 +688,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Submit") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Submit") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if (len(createAccountPassword) < 1) {
 						
 					} else {
@@ -808,7 +808,7 @@ func main() {
 					rl.DrawTextEx(fontMenu, "Select an Account", rl.Vector2{offsetX, 30}, 40, spacing, rl.Gray)
 					rl.DrawTextEx(font, "Choose from the previously created accounts below.", rl.Vector2{offsetX, 80}, 20, spacing, rl.Gray)
 
-					if (rl.GuiButton(rl.NewRectangle(offsetX, 250, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+					if (rl.GuiButton(rl.NewRectangle(offsetX, 250, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 						if (session.Path != "") {
 							windowIndex = 2.1
 						}
@@ -840,7 +840,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Sign In") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Sign In") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if loginPassword != "" {
 						windowIndex = 2.2
 					}
@@ -1151,7 +1151,7 @@ func main() {
 					rl.DrawTextEx(font, "Invalid address format.", rl.Vector2{offsetX, 285}, 20, spacing, rl.Gray)
 					ok = false
 					
-					if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Clear") || rl.IsKeyPressed(rl.KeyEnter)) {
+					if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Clear") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 						receiverString = ""
 					}
 						
@@ -1174,7 +1174,7 @@ func main() {
 				}
 
 				
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if ok == true {
 						if pid {
 							windowIndex = 2.52
@@ -1212,7 +1212,7 @@ func main() {
 				
 				err = nil
 
-				if (rl.GuiButton(rl.NewRectangle(offsetX + 230, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX + 230, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					windowIndex = 2.52
 				}
 				
@@ -1290,7 +1290,7 @@ func main() {
 					}
 				}
 				
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) && ok == true) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter) && ok == true) {
 
 					addr_list := []address.Address{*transfer.rAddress}
 					amount_list := []uint64{transfer.Amount}
@@ -1370,7 +1370,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 				
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 600, 210, 50), "Confirm") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 600, 210, 50), "Confirm") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					check := wallet.Check_Password(loginPassword)
 					if check == false {
 						loginPassword = ""
@@ -1587,7 +1587,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 				
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Confirm") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Confirm") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					check := wallet.Check_Password(loginPassword)
 					if check == false {
 						loginPassword = ""
@@ -1650,7 +1650,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 				
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					windowIndex = 2.73
 				}
 				
@@ -1671,7 +1671,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 				
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Confirm") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 210, 50), "Confirm") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if loginPassword == tempPassword {
 						err = wallet.Set_Encrypted_Wallet_Password(loginPassword)
 						
@@ -1751,7 +1751,7 @@ func main() {
 					rl.DrawTextEx(fontHeader, mask, rl.Vector2{offsetX, 231}, 30, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restoreFilename != "" {
 						if _, err = os.Stat(APP_PATH + restoreFilename + ".db"); err != nil {
 							fileError = false
@@ -1779,7 +1779,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restorePassword != "" {
 						windowIndex = 3.121
 					}
@@ -1799,7 +1799,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restorePassword != "" && restorePassword != tempPassword {
 						passwordError = true
 						restorePassword = ""
@@ -1825,7 +1825,7 @@ func main() {
 					
 				rl.DrawTextRecEx(font, restoreHex, rl.NewRectangle(offsetX, 231, 800, 200), 20, 0, true, session.Color, 0, 0, rl.Gray, statusColor)
 						
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if (restoreHex != "" && len(restoreHex) == 128) {
 						windowIndex = 3.14
 					}
@@ -1878,7 +1878,7 @@ func main() {
 					rl.DrawTextEx(fontHeader, mask, rl.Vector2{offsetX, 231}, 30, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restoreFilename != "" {
 						if _, err = os.Stat(APP_PATH + restoreFilename + ".db"); err != nil {
 							fileError = false
@@ -1910,7 +1910,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restorePassword != "" {
 						windowIndex = 3.22
 					} else {
@@ -1933,7 +1933,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restorePassword != "" && restorePassword != tempPassword {
 						passwordError = true
 						restorePassword = ""
@@ -1959,7 +1959,7 @@ func main() {
 					
 				rl.DrawTextRecEx(font, restoreHex, rl.NewRectangle(offsetX, 231, 800, 200), 20, 0, true, session.Color, 0, 0, rl.Gray, statusColor)
 						
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restoreHex != "" {
 						windowIndex = 3.24
 					} else {
@@ -2012,7 +2012,7 @@ func main() {
 					rl.DrawTextEx(fontHeader, mask, rl.Vector2{offsetX, 231}, 30, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restoreFilename != "" {
 						if _, err = os.Stat(APP_PATH + restoreFilename + ".db"); err != nil {
 							fileError = false
@@ -2043,7 +2043,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restorePassword != "" {
 						windowIndex = 3.22
 					} else {
@@ -2065,7 +2065,7 @@ func main() {
 					rl.DrawTextEx(fontPassword, mask, rl.Vector2{offsetX, 231}, 50, spacing, session.Color)
 				}
 					
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restorePassword != "" && restorePassword != tempPassword {
 						passwordError = true
 						windowIndex = 3.21
@@ -2088,7 +2088,7 @@ func main() {
 					
 				rl.DrawTextRecEx(font, restoreHex, rl.NewRectangle(offsetX, 231, 800, 200), 20, 0, true, session.Color, 0, 0, rl.Gray, statusColor)
 						
-				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter)) {
+				if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Next") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 					if restoreHex != "" {
 						windowIndex = 3.24
 					} else {
@@ -2239,7 +2239,7 @@ func main() {
 						rl.DrawTextEx(font, mask, rl.Vector2{offsetX, 231}, 20, spacing, session.Color)
 					}
 
-					if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Save") || rl.IsKeyPressed(rl.KeyEnter)) {
+					if (rl.GuiButton(rl.NewRectangle(offsetX, 350, 150, 50), "Save") || rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter)) {
 
 					}
 				}
@@ -2300,7 +2300,7 @@ func main() {
 				rl.DrawTextRec(font, "CMD Terminal", rl.NewRectangle(10, 10, float32(rl.GetScreenWidth() - 20), float32(rl.GetScreenHeight() - 40)), 20, spacing, true, session.Color)
 				em, command = rl.GuiTextBox(rl.NewRectangle(0, float32(rl.GetScreenHeight() - 30), float32(rl.GetScreenWidth()), 30), command, 256, true)
 				
-				if rl.IsKeyPressed(rl.KeyEnter) {
+				if rl.IsKeyPressed(rl.KeyEnter) || rl.IsKeyPressed(rl.KeyKpEnter) {
 					if command == "exit" {
 						toggleTerminal(fontHeader, font)
 					}
